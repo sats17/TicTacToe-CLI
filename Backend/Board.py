@@ -110,8 +110,8 @@ class Board(TicTacToeI):
                     return "win"
 
 
-a = Board(3)
-print("move capture ", a.enter_move([0, 1], "o"))
-print("move capture ", a.enter_move([1, 1], "o"))
-print("move capture ", a.enter_move([2, 1], "o"))
-print(a.get_dashboard())
+# a = Board(3)
+# print("move capture ", a.enter_move([0, 1], "o"))
+# print("move capture ", a.enter_move([1, 1], "o"))
+# print("move capture ", a.enter_move([2, 1], "o"))
+# print(a.get_dashboard())
