@@ -3,21 +3,30 @@ from Backend.Board import Board
 
 def main():
     board = Board(3)
-    print(board.get_dashboard())
     return None
 
 
-if __name__ == "__main__":
+def generateBoard(size):
+    return Board(size)
+
+
+def displayBoard(board):
+    for i in board:
+        print(i)
+
+
+def preparePrerequisites():
+    data = []
     player1 = dict()
-    name = input("Enter player one name: ")
-    value = input("Pick X or O: ")
-    if value.lower() not in ['x', 'o']:
+    name = input("Enter first player name: ")
+    value = input("Pick X or O: ").lower()
+    if value not in ['x', 'o']:
         print("Please enter either X or O")
         exit()
     player1['name'] = name
-    player1['value'] = value.lower()
+    player1['value'] = value
     player2 = dict()
-    name = input("Enter player two name: ")
+    name = input("Enter second player name: ")
     player2['name'] = name
     if player1.get('value') == 'x':
         player2['value'] = 'o'
@@ -25,8 +34,27 @@ if __name__ == "__main__":
         player2['value'] = 'y'
     print("Players information \n", "Player 1 : ", player1.get('name'), " ", player1.get('value'), "\n Player 2 : ",
           player2.get('name'), " ", player2.get('value'))
-    boardSize = input("Enter board size: ") # Get int and handle error here
-    if not isinstance(boardSize, int) or boardSize <= 0 or boardSize > 5:
-        print("Please enter only number which is greater than 0 and less than 5")
+    try:
+        boardSize = int(input("Enter board size: "))
+    except ValueError:
+        print("That's not an number, please enter board size between 0 to 5!")
         exit()
+    if boardSize <= 0 or boardSize > 5:
+        print("Please enter board size between 0 to 5!")
+        exit()
+    data.append(boardSize)
+    data.append(player1)
+    data.append(player2)
+    return data
+
+
+if __name__ == "__main__":
+    print("Welcome to CLI based TicTacToe game ")
+    prerequisitesData = preparePrerequisites()
+    boardSize = prerequisitesData[0]
+    player1Data = prerequisitesData[1]
+    player2Data = prerequisitesData[2]
+    board = generateBoard(boardSize)
+    print("Your board looks like this ")
+    displayBoard(board.get_dashboard())
     main()
