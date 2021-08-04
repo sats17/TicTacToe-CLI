@@ -29,4 +29,4 @@ if __name__ == "__main__":
     if not isinstance(boardSize, int) or boardSize <= 0 or boardSize > 5:
         print("Please enter only number which is greater than 0 and less than 5")
         exit()
-    main()
+    main() # calling main function
