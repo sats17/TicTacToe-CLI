@@ -1,9 +1,12 @@
 from Backend.Board import Board
 
 
-def main():
-    board = Board(3)
-    return None
+def main(player1Data, player2Data, board):
+    isPlayerWin = False
+    isMatchDraw = False
+    while not isPlayerWin or not isMatchDraw:
+        print(board.get_dashboard())
+        isPlayerWin = True
 
 
 def generateBoard(size):
@@ -49,12 +52,18 @@ def preparePrerequisites():
 
 
 if __name__ == "__main__":
-    print("Welcome to CLI based TicTacToe game ")
-    prerequisitesData = preparePrerequisites()
-    boardSize = prerequisitesData[0]
-    player1Data = prerequisitesData[1]
-    player2Data = prerequisitesData[2]
-    board = generateBoard(boardSize)
-    print("Your board looks like this ")
-    displayBoard(board.get_dashboard())
-    main()
+    isPlayerWin = False
+    isMatchDraw = False
+    # print(not isPlayerWin)
+    if not isPlayerWin:
+        print("Yes")
+    # print("Welcome to CLI based TicTacToe game ")
+    # prerequisitesData = preparePrerequisites()
+    # boardSize = prerequisitesData[0]
+    # player1Data = prerequisitesData[1]
+    # player2Data = prerequisitesData[2]
+    # board = generateBoard(boardSize)
+    # print("Your board looks like this ")
+    # displayBoard(board.get_dashboard())
+    # main(player1Data, player2Data, board)
+
