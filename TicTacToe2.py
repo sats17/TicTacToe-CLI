@@ -5,6 +5,7 @@ def createBoard(size):
 horizontal = []
 vertical = []
 cross = []
+print("test")
 
 
 def createPossibleIndices(size):
