@@ -1,42 +1,92 @@
 from Backend.Board import Board
+from Frontend.Player import Player
 
 
 def main(player1Data, player2Data, board):
-    isPlayerWin = False
+    isGameGoing = True
+    whoseNextMove = "player1"
+    whoWon = None
     isMatchDraw = False
-    while not isPlayerWin or not isMatchDraw:
-        print(board.get_dashboard())
-        isPlayerWin = True
+    while isGameGoing:
+        if whoseNextMove == "player1":
+            isInvalidInput = True
+            index = list(
+                map(int, input("Hey " + player1Data.getPlayerName() + " enter the index numbers from board to "
+                                                                      "hit the board : ").strip().split()))
+            response = board.enter_move(index, player1Data.getPlayerValue())
+            while isInvalidInput:
+                if not response['isValidIndex']['answer'] or not response['isValidIndex']['answer']:
+                    isInvalidInput = True
+                    print("Oops you have entered wrong index value")
+                    index = list(
+                        map(int, input("Please re-enter again..").strip().split()))
+                    response = board.enter_move(index, player1Data.getPlayerValue())
+                else:
+                    isInvalidInput = False
+                    print("Backend resposne was ", response)
+                    if 'isUserWin' in response:
+                        isGameGoing = False
+                        whoWon = player1Data
+                    if 'isMatchDraw' in response:
+                        isGameGoing = False
+                        isMatchDraw = True
+            whoseNextMove = "player2"
+        else:
+            isInvalidInput = True
+            index = list(
+                map(int, input("Hey " + player2Data.getPlayerName() + " enter the index numbers from board to "
+                                                                      "hit the board : ").strip().split()))
+            response = board.enter_move(index, player2Data.getPlayerValue())
+            while isInvalidInput:
+                if not response['isValidIndex']['answer'] or not response['isValidIndex']['answer']:
+                    isInvalidInput = True
+                    print("Oops you have entered wrong index value")
+                    index = list(
+                        map(int, input("Please re-enter again..").strip().split()))
+                    response = board.enter_move(index, player2Data.getPlayerValue())
+                else:
+                    isInvalidInput = False
+                    print("Backend response was ", response)
+                    if 'isUserWin' in response:
+                        isGameGoing = False
+                        whoWon = player2Data
+                    if 'isMatchDraw' in response:
+                        isGameGoing = False
+                        isMatchDraw = True
+            whoseNextMove = "player1"
+        print("After entering move board looks like")
+        displayBoard(board.get_dashboard())
+    if isMatchDraw:
+        return "Hey, match is draw.. You both played well.."
+    return whoWon.getPlayerName() + "Won the game"
 
 
 def generateBoard(size):
     return Board(size)
 
 
-def displayBoard(board):
-    for i in board:
+def displayBoard(boardData):
+    for i in boardData:
         print(i)
 
 
 def preparePrerequisites():
     data = []
-    player1 = dict()
     name = input("Enter first player name: ")
     value = input("Pick X or O: ").lower()
     if value not in ['x', 'o']:
         print("Please enter either X or O")
         exit()
-    player1['name'] = name
-    player1['value'] = value
-    player2 = dict()
+    player1 = Player(name, value)
     name = input("Enter second player name: ")
-    player2['name'] = name
-    if player1.get('value') == 'x':
-        player2['value'] = 'o'
-    if player1.get('value') == 'o':
-        player2['value'] = 'y'
-    print("Players information \n", "Player 1 : ", player1.get('name'), " ", player1.get('value'), "\n Player 2 : ",
-          player2.get('name'), " ", player2.get('value'))
+    if player1.getPlayerValue() == 'x':
+        value = 'o'
+    if player1.getPlayerValue() == 'o':
+        value = 'y'
+    player2 = Player(name, value)
+    print("Players information \n", "Player 1 : ", player1.getPlayerName(), " ", player1.getPlayerValue(), "\n Player "
+                                                                                                           "2 : ",
+          player2.getPlayerName(), " ", player2.getPlayerValue())
     try:
         boardSize = int(input("Enter board size: "))
     except ValueError:
@@ -52,18 +102,13 @@ def preparePrerequisites():
 
 
 if __name__ == "__main__":
-    isPlayerWin = False
-    isMatchDraw = False
-    # print(not isPlayerWin)
-    if not isPlayerWin:
-        print("Yes")
-    # print("Welcome to CLI based TicTacToe game ")
-    # prerequisitesData = preparePrerequisites()
-    # boardSize = prerequisitesData[0]
-    # player1Data = prerequisitesData[1]
-    # player2Data = prerequisitesData[2]
-    # board = generateBoard(boardSize)
-    # print("Your board looks like this ")
-    # displayBoard(board.get_dashboard())
-    # main(player1Data, player2Data, board)
-
+    print("Welcome to CLI based TicTacToe game ")
+    prerequisitesData = preparePrerequisites()
+    boardSize = prerequisitesData[0]
+    player1Data = prerequisitesData[1]
+    player2Data = prerequisitesData[2]
+    board = generateBoard(boardSize)
+    print("Your board looks like this ")
+    displayBoard(board.get_dashboard())
+    response = main(player1Data, player2Data, board)
+    print(response)

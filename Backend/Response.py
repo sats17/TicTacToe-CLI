@@ -45,5 +45,11 @@ class Response:
         }
         return self
 
+    def is_match_draw(self, answer: bool):
+        self.__response['isMatchDraw'] = {
+            'answer': answer
+        }
+        return self
+
     def build(self):
         return self.__response
