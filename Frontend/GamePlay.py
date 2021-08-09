@@ -11,8 +11,8 @@ def main(player1Data, player2Data, board):
         if whoseNextMove == "player1":
             isInvalidInput = True
             index = list(
-                map(int, input("Hey " + player1Data.getPlayerName() + " enter the index numbers from board to "
-                                                                      "hit the board : ").strip().split()))
+                map(int, input("Hey " + player1Data.getPlayerName() + " enter the index numbers(space separated) from "
+                                                                      "board to play your move : ").strip().split()))
             response = board.enter_move(index, player1Data.getPlayerValue())
             while isInvalidInput:
                 if not response['isValidIndex']['answer'] or not response['isValidIndex']['answer']:
@@ -23,7 +23,6 @@ def main(player1Data, player2Data, board):
                     response = board.enter_move(index, player1Data.getPlayerValue())
                 else:
                     isInvalidInput = False
-                    print("Backend resposne was ", response)
                     if 'isUserWin' in response:
                         isGameGoing = False
                         whoWon = player1Data
@@ -34,8 +33,8 @@ def main(player1Data, player2Data, board):
         else:
             isInvalidInput = True
             index = list(
-                map(int, input("Hey " + player2Data.getPlayerName() + " enter the index numbers from board to "
-                                                                      "hit the board : ").strip().split()))
+                map(int, input("Hey " + player2Data.getPlayerName() + " enter the index numbers(space separated) from "
+                                                                      "board to play your move : ").strip().split()))
             response = board.enter_move(index, player2Data.getPlayerValue())
             while isInvalidInput:
                 if not response['isValidIndex']['answer'] or not response['isValidIndex']['answer']:
@@ -46,7 +45,6 @@ def main(player1Data, player2Data, board):
                     response = board.enter_move(index, player2Data.getPlayerValue())
                 else:
                     isInvalidInput = False
-                    print("Backend response was ", response)
                     if 'isUserWin' in response:
                         isGameGoing = False
                         whoWon = player2Data
